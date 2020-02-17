@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CU CHEER</title>
+    <link rel="stylesheet" href="../css/mystyle.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+
+    <!-- The Modal -->
+    <div class="my-modal" id="my-modal">
+        <div class="my-modal-body" id="my-modal-body">
+
+            <!-- For Content -->
+            <div class="my-modal-head" id="my-modal-head">Heading</div>
+            <hr>
+            <div class="my-modal-content">
+                <p id="my-modal-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa enim harum fuga illum alias quo doloribus explicabo, saepe voluptates, eligendi molestias tempore asperiores assumenda reiciendis, vel ducimus animi ad quis.</p>
+            </div>
+
+            <!-- For OK Modal -->
+            <div class="my-modal-inline" id="my-modal-button-one">
+                <div class="my-modal-button my-modal-green my-hidden" id="my-modal-button-ok">
+                    <p>OK</p>
+                </div>
+            </div>
+            <!-- For Yes/No Modal -->
+            <div class="my-modal-inline" id="my-modal-button-two">
+                <div class="my-modal-button my-modal-red" id="my-modal-button-no">
+                    <p>No</p>
+                </div>
+                <div class="my-modal-button my-modal-green" id="my-modal-button-yes">
+                    <p>Yes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader-container" id="loader-container">
+        <div id="loader"></div>
+    </div>
+
+    <div class="votepage">
+        <div class="decoration-container-first">
+            <div class="decoration-first"></div>
+        </div>
+        <div class="decoration-container-second">
+            <div class="decoration-second"></div>
+        </div>
+        <div class="logo-container">
+            <div class="logo"></div>
+        </div>
+        <div style="height: 5vh"></div>
+
+        <h1 class="header" lang="th">เลือกประธานเชียร์ที่ใช่สำหรับคุณ</h1>
+        <div class="selector-container">
+            <!-- first -->
+            <div class="contestant-container">
+                <div class="select-button">
+                    <div class="round">
+                        <input class="checkbox" type="checkbox" id="C1" value="C1" />
+                        <label id="LC1" for="C1"></label>
+                    </div>
+                </div>
+                <div class="contestant number1" onclick="gotoPage('../contestants/C1.html',true)"></div>
+                <div class="content-container" onclick="gotoPage('../contestants/C1.html',true)">
+                    <div class="content-name" lang="th">อามรยา</div>
+                    <div class="content-faculty" lang="th">คณะวิทยาศาสตร์ ชั้นปีที่ 4</div>
+                    <div class="content-more" lang="th">คลิกเพิื่อดูข้อมูล</div>
+                </div>
+            </div>
+            <!-- second -->
+            <div class="contestant-container">
+                <div class="select-button">
+                    <div class="round">
+                        <input class="checkbox" type="checkbox" id="C2" value="C2" />
+                        <label id="LC2" for="C2"></label>
+                    </div>
+                </div>
+                <div class="contestant number2" onclick="gotoPage('../contestants/C2.html',true)"></div>
+                <div class="content-container" onclick="gotoPage('../contestants/C2.html',true)">
+                    <div class="content-name" lang="th">ซีพีรณัฐ</div>
+                    <div class="content-faculty" lang="th">คณะศิลปกรรมศาสตร์ ชั้นปีที่ 4</div>
+                    <div class="content-more" lang="th">คลิกเพิื่อดูข้อมูล</div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container" onclick="ConfirmVote('Finish.html',true)">
+            <div class="button" lang="th">Comfirm</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js" integrity="sha256-fIkQKQryItPqpaWZbtwG25Jp2p5ujqo/NwJrfqAB+Qk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+    <script src="../js/custom.js"></script>
+    <script src="../js/modal.js"></script>
+    <script src="../js/vote.js"></script>
+    <script>
+        var $checks = $('input[type="checkbox"]').click(function(e) {
+            if (this.checked == false) {
+                this.checked = false;
+            } else {
+                $('input[type="checkbox"]').each(function(index) {
+                    this.checked = false;
+                })
+                this.checked = true;
+            }
+        });
+        $("#loader-container").css("display", "none");
+        $("#my-modal-button-yes").attr("disabled", false);
+    </script>
+    <script>
+        function Animation(reverse = false) {
+            const tl = new TimelineLite({
+                ease: Expo.easeOut
+            });
+            const logo = document.querySelector('.logo-container');
+            const header = document.querySelector('.header');
+            const contestant = document.querySelectorAll('.contestant-container');
+            const button = document.querySelector('.button-container');
+            tl.fromTo(logo, 1, {
+                opacity: 0,
+                y: 50
+            }, {
+                opacity: 1,
+                y: 0
+            }).fromTo(header, 1, {
+                opacity: 0,
+                y: -40
+            }, {
+                opacity: 1,
+                y: 0
+            }, '-=0.6')
+            var rev = -1
+            for (var i = 0; i < contestant.length; i++) {
+                tl.fromTo(contestant[i], 0.6, {
+                    opacity: 0,
+                    x: 50 * rev
+                }, {
+                    opacity: 1,
+                    x: 0
+                }, '-=0.6')
+                rev *= -1
+            }
+            tl.fromTo(button, 0.7, {
+                opacity: 0,
+                y: 50
+            }, {
+                opacity: 1,
+                y: 0
+            }, '-=0.3')
+        }
+        Animation();
+    </script>
+</body>
+
+</html>
